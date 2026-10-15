@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>โมเดลการสะสมทุน Y = A√K</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap">
+<style>
+:root{--bg:#fdf6fb;--card:#ffffff;--ink:#4a4560;--mute:#8a84a3;--line:#ece3f3;--blue:#8ec5ff;--pink:#ff9ec4;--yellow:#ffd48a;--mint:#a8e6cf;--lav:#cdb7ff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2a2638;--card:#352f47;--ink:#f1ecfb;--mute:#b7aed1;--line:#4a4363}}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Kanit',system-ui,sans-serif;font-weight:300;line-height:1.7}
+.wrap{max-width:1000px;margin:0 auto;padding:20px 16px 60px}
+header{background:linear-gradient(120deg,var(--lav),var(--pink) 60%,var(--yellow));border-radius:28px;padding:26px 28px;color:#3b3552}
+header h1{margin:0;font-size:clamp(24px,4vw,34px);font-weight:600;line-height:1.3}
+header p{margin:4px 0 0;font-weight:400}
+.id{display:inline-block;background:#fff9;border-radius:99px;padding:2px 14px;margin-top:10px;font-weight:500}
+section{background:var(--card);border-radius:24px;padding:22px;margin-top:18px;border:2px solid var(--line)}
+h2{margin:0 0 10px;font-size:20px;font-weight:600}
+.grid{display:grid;grid-template-columns:1.5fr 1fr;gap:18px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.ctrl{margin-bottom:14px}
+.ctrl label{display:flex;justify-content:space-between;font-weight:500}
+input[type=range]{width:100%;accent-color:#c49bff}
+button{font-family:inherit;font-size:15px;border:0;border-radius:99px;padding:8px 18px;cursor:pointer;background:var(--lav);color:#3b3552;font-weight:500;transition:transform .15s}
+button:hover{transform:translateY(-2px) scale(1.04)}button:active{transform:scale(.96)}
+button:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid #7f5bd6;outline-offset:2px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.b-mint{background:var(--mint)}.b-pink{background:var(--pink)}.b-yellow{background:var(--yellow)}.b-blue{background:var(--blue)}
+.svgbox{overflow-x:auto}svg{width:100%;height:auto;display:block;min-width:420px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:14px}.legend i{display:inline-block;width:14px;height:14px;border-radius:50%;margin-right:5px;vertical-align:-2px}
+.out{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.out div{border-radius:18px;padding:12px;text-align:center}
+.out b{display:block;font-size:26px;font-weight:600}
+.out small{color:#5d5777}
+.out div{color:#3b3552}
+.ai{background:linear-gradient(135deg,var(--mint),var(--blue));border-radius:20px;padding:16px;color:#2f3b4d}
+.ai table{width:100%;border-collapse:collapse}.ai td,.ai th{padding:4px 6px;text-align:right}.ai td:first-child,.ai th:first-child{text-align:left}
+.pop{animation:pop .5s}@keyframes pop{0%{transform:scale(.97)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.exp{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.exp div{border-radius:18px;padding:12px 14px;color:#3b3552}
+details{margin-top:6px}summary{cursor:pointer;font-weight:500;padding:8px 0}
+.steps{background:var(--bg);border-radius:16px;padding:14px 18px;font-size:15px;overflow-x:auto}
+.steps p{margin:6px 0}code{font-family:inherit;background:var(--line);border-radius:8px;padding:1px 8px;white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>โมเดลการสะสมทุน: Y = A√K</h1>
+  <p>นายภัทรพงศ์ ปกรณ์รัตน์</p>
+  <span class="id">รหัสนักศึกษา 671610311</span>
+</header>
+
+<section>
+  <h2>Y = A√K หมายถึงอะไร</h2>
+  <p><b>Y</b> คือผลผลิตต่อคน <b>K</b> คือทุนต่อคน และ <b>A</b> คือระดับเทคโนโลยี ฟังก์ชันรากที่สองหมายความว่า ทุนเพิ่มขึ้นทีละหน่วย ผลผลิตจะเพิ่มขึ้นน้อยลงเรื่อย ๆ (ผลตอบแทนต่อทุนลดลง)
+  ในแต่ละช่วงเวลา ทุนเพิ่มจากการลงทุน <b>sY</b> และลดจากการเสื่อมสภาพ <b>δK</b> ทุนจะหยุดเปลี่ยนเมื่อสองเส้นนี้เท่ากัน เรียกว่า <b>สภาวะคงตัว</b> (K*)</p>
+  <div class="exp">
+    <div style="background:#ffe0ee"><b>s อัตราการออม/ลงทุน</b><br>เพิ่ม s → เส้น sY ยกสูงขึ้น → K* <b>เพิ่ม</b> ลด s → K* <b>ลด</b></div>
+    <div style="background:#fff0cf"><b>δ อัตราค่าเสื่อม</b><br>เพิ่ม δ → เส้น δK ชันขึ้น ทุนหายเร็ว → K* <b>ลด</b> ลด δ → K* <b>เพิ่ม</b></div>
+    <div style="background:#dcedff"><b>A เทคโนโลยี</b><br>เพิ่ม A → ผลผลิตและเงินลงทุนต่อรอบเพิ่ม → K* และ Y* <b>เพิ่ม</b> ลด A → <b>ลด</b></div>
+  </div>
+</section>
+
+<section>
+  <h2>กราฟสภาวะคงตัว</h2>
+  <div class="grid">
+    <div>
+      <div class="svgbox"><svg id="g" viewBox="0 0 640 400" role="img" aria-label="กราฟ Y, sY และ δK เทียบกับ K"></svg></div>
+      <div class="legend">
+        <span><i style="background:var(--blue)"></i>Y = A√K</span>
+        <span><i style="background:var(--pink)"></i>เส้นลงทุน sY</span>
+        <span><i style="background:var(--yellow)"></i>เส้นค่าเสื่อม δK</span>
+        <span><i style="background:var(--lav)"></i>จุดสภาวะคงตัว</span>
+      </div>
+      <div class="row"><button class="b-mint" id="play">▶ ดูทุนค่อย ๆ สะสม</button></div>
+    </div>
+    <div>
+      <div class="row">
+        <button class="b-blue" id="pMe">ค่าของฉัน (รหัส …11)</button>
+        <button class="b-yellow" id="pSlide">ค่าในสไลด์</button>
+      </div>
+      <div class="ctrl"><label>s อัตราการลงทุน <span id="vs"></span></label><input type="range" id="s" min="0.05" max="0.6" step="0.01"></div>
+      <div class="ctrl"><label>δ อัตราค่าเสื่อม <span id="vd"></span></label><input type="range" id="d" min="0.005" max="0.08" step="0.001"></div>
+      <div class="ctrl"><label>A เทคโนโลยี <span id="va"></span></label><input type="range" id="a" min="0.5" max="6" step="0.1"></div>
+      <div class="out" id="out"></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>สถานการณ์เศรษฐกิจดิจิทัล</h2>
+  <p>กดปุ่มเพื่อจำลองว่าประเทศไทยนำ AI มาใช้ ทำให้ A เพิ่มขึ้น 20% (A × 1.2) แล้วดูว่า Y* เปลี่ยนไปเท่าไร</p>
+  <div class="row"><button class="b-pink" id="ai">🤖 จำลอง: ไทยนำ AI มาใช้</button></div>
+  <div class="ai" id="aiOut"></div>
+</section>
+
+<section>
+  <h2>วิธีคิดค่าตั้งต้นและค่า K*, Y*, C*</h2>
+  <details id="how1"><summary>ดูวิธีคิดค่าตั้งต้นจากรหัสนักศึกษา</summary>
+    <div class="steps">
+      <p>รหัส 671610<b>3</b>1<b>1</b>: เลขหลักสุดท้าย = <b>1</b> เลขหลักรองสุดท้าย = <b>1</b></p>
+      <p>s = 0.20 + (1 × 0.02) = <code>0.22</code></p>
+      <p>δ = 0.02 + (1 × 0.002) = <code>0.022</code></p>
+      <p>A = <code>2.6</code></p>
+    </div>
+  </details>
+  <details id="how2"><summary>ดูวิธีคิด K*, Y*, C* ด้วยค่าที่ตั้งอยู่ตอนนี้</summary><div class="steps" id="steps"></div></details>
+</section>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const ME={s:.22,d:.022,a:2.6},SLIDE={s:.3,d:.02,a:2.6};
+let P={...ME},aiOn=false,anim=null,dotK=null;
+const calc=(s,d,a)=>{const r=s*a/d,K=r*r,Y=a*r;return{r,K,Y,C:(1-s)*Y}};
+const f3=x=>x.toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3});
+
+function draw(){
+  const eff=aiOn?P.a*1.2:P.a, {K,Y}=calc(P.s,P.d,eff), old=calc(P.s,P.d,P.a);
+  const xm=Math.max(K,old.K)*1.6, ym=eff*Math.sqrt(xm)*1.02;
+  const W=640,H=400,L=56,B=44,T=14,R=16;
+  const X=k=>L+k/xm*(W-L-R), Yp=y=>H-B-y/ym*(H-B-T);
+  const path=fn=>{let p='';for(let i=0;i<=120;i++){const k=xm*i/120;p+=(i?'L':'M')+X(k).toFixed(1)+' '+Yp(fn(k)).toFixed(1)}return p};
+  let g=`<rect x="0" y="0" width="${W}" height="${H}" rx="18" fill="#fbf4ff" opacity=".6"/>`;
+  g+=`<line x1="${L}" y1="${H-B}" x2="${W-R}" y2="${H-B}" stroke="#b9afd3" stroke-width="2"/><line x1="${L}" y1="${T}" x2="${L}" y2="${H-B}" stroke="#b9afd3" stroke-width="2"/>`;
+  for(let i=1;i<=4;i++){const k=xm*i/4;g+=`<text x="${X(k)}" y="${H-B+20}" font-size="12" text-anchor="middle" fill="#7a7396">${Math.round(k)}</text>`}
+  g+=`<text x="${(W+L)/2}" y="${H-6}" font-size="13" text-anchor="middle" fill="#7a7396">ทุน K</text><text x="14" y="${(H-B)/2}" font-size="13" fill="#7a7396" transform="rotate(-90 14 ${(H-B)/2})" text-anchor="middle">ผลผลิต</text>`;
+  if(aiOn)g+=`<path d="${path(k=>P.a*Math.sqrt(k))}" fill="none" stroke="#8ec5ff" stroke-width="3" stroke-dasharray="6 6" opacity=".6"/>`;
+  g+=`<path d="${path(k=>eff*Math.sqrt(k))}" fill="none" stroke="#8ec5ff" stroke-width="5" stroke-linecap="round"/>`;
+  g+=`<path d="${path(k=>P.s*eff*Math.sqrt(k))}" fill="none" stroke="#ff9ec4" stroke-width="5" stroke-linecap="round"/>`;
+  g+=`<path d="${path(k=>P.d*k)}" fill="none" stroke="#ffd48a" stroke-width="5" stroke-linecap="round"/>`;
+  const ys=P.d*K;
+  g+=`<line x1="${X(K)}" y1="${Yp(ys)}" x2="${X(K)}" y2="${H-B}" stroke="#cdb7ff" stroke-width="2" stroke-dasharray="5 5"/><line x1="${L}" y1="${Yp(ys)}" x2="${X(K)}" y2="${Yp(ys)}" stroke="#cdb7ff" stroke-width="2" stroke-dasharray="5 5"/>`;
+  g+=`<circle cx="${X(K)}" cy="${Yp(ys)}" r="9" fill="#cdb7ff" stroke="#fff" stroke-width="3"><animate attributeName="r" values="9;13;9" dur="2s" repeatCount="indefinite"/></circle>`;
+  g+=`<text x="${X(K)+10}" y="${H-B-8}" font-size="13" fill="#6b4fb3" font-weight="500">K* = ${K.toFixed(0)}</text>`;
+  if(dotK!=null){const y=eff*Math.sqrt(dotK);g+=`<circle cx="${X(dotK)}" cy="${Yp(y)}" r="8" fill="#a8e6cf" stroke="#fff" stroke-width="3"/><circle cx="${X(dotK)}" cy="${Yp(P.s*y)}" r="6" fill="#ff9ec4" stroke="#fff" stroke-width="2"/>`}
+  $('g').innerHTML=g;
+}
+
+function render(){
+  $('vs').textContent=P.s.toFixed(2);$('vd').textContent=P.d.toFixed(3);$('va').textContent=P.a.toFixed(1);
+  $('s').value=P.s;$('d').value=P.d;$('a').value=P.a;
+  const eff=aiOn?P.a*1.2:P.a, c=calc(P.s,P.d,eff);
+  $('out').innerHTML=`<div style="background:#dcedff"><small>K*</small><b>${f3(c.K)}</b></div><div style="background:#ffe0ee"><small>Y*</small><b>${f3(c.Y)}</b></div><div style="background:#d9f5e8"><small>C*</small><b>${f3(c.C)}</b></div>`;
+  const o=calc(P.s,P.d,P.a),n=calc(P.s,P.d,P.a*1.2),dy=n.Y-o.Y;
+  $('ai').textContent=aiOn?'✔ กำลังจำลอง AI อยู่ (กดอีกครั้งเพื่อยกเลิก)':'🤖 จำลอง: ไทยนำ AI มาใช้';
+  $('aiOut').innerHTML=`<table><tr><th></th><th>ก่อนใช้ AI</th><th>หลังใช้ AI</th></tr>
+  <tr><td>A</td><td>${f3(P.a)}</td><td>${f3(P.a*1.2)}</td></tr>
+  <tr><td>K*</td><td>${f3(o.K)}</td><td>${f3(n.K)}</td></tr>
+  <tr><td>Y*</td><td>${f3(o.Y)}</td><td>${f3(n.Y)}</td></tr></table>
+  <p style="margin:10px 0 0"><b>Y* เปลี่ยนไป ${dy>=0?'+':''}${f3(dy)} (${(dy/o.Y*100).toFixed(1)}%)</b> เพราะ Y* = A²s/δ เมื่อ A เพิ่ม 1.2 เท่า Y* เพิ่ม 1.2² = 1.44 เท่า</p>`;
+  $('steps').innerHTML=`<p>เงื่อนไขสภาวะคงตัว: <code>sY = δK</code> แทน Y = A√K ได้ <code>s·A·√K = δ·K</code></p>
+  <p>หารด้วย √K: <code>√K* = sA/δ</code> ดังนั้น <code>K* = (sA/δ)²</code></p>
+  <p>√K* = (${P.s.toFixed(2)} × ${eff.toFixed(2)}) / ${P.d.toFixed(3)} = ${c.r.toFixed(3)}</p>
+  <p>K* = ${c.r.toFixed(3)}² = <code>${f3(c.K)}</code></p>
+  <p>Y* = A√K* = ${eff.toFixed(2)} × ${c.r.toFixed(3)} = <code>${f3(c.Y)}</code></p>
+  <p>C* = (1 − s)Y* = ${(1-P.s).toFixed(2)} × ${f3(c.Y)} = <code>${f3(c.C)}</code></p>`;
+  draw();
+}
+function pulse(){const e=$('out');e.classList.remove('pop');void e.offsetWidth;e.classList.add('pop')}
+function stop(){if(anim){cancelAnimationFrame(anim);anim=null}dotK=null}
+function set(p){stop();P={...p};render();pulse()}
+$('pMe').onclick=()=>set(ME);$('pSlide').onclick=()=>set(SLIDE);
+['s','d','a'].forEach(k=>$(k).oninput=e=>{stop();P[k]=parseFloat(e.target.value);render()});
+$('ai').onclick=()=>{stop();aiOn=!aiOn;render();pulse();$('aiOut').classList.remove('pop');void $('aiOut').offsetWidth;$('aiOut').classList.add('pop')};
+$('play').onclick=()=>{
+  stop();const eff=aiOn?P.a*1.2:P.a;let k=1,n=0;dotK=k;
+  const step=()=>{for(let i=0;i<2;i++)k+=P.s*eff*Math.sqrt(k)-P.d*k;dotK=k;draw();n++;
+    if(n<260)anim=requestAnimationFrame(step);else stop(),draw()};
+  step();
+};
+render();
+</script>
+</body>
+</html>
